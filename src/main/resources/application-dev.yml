@@ -1,0 +1,21 @@
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml #mapper映射xml文件位置
+  configuration:
+    map-underscore-to-camel-case: true #开启数据库驼峰命名
+
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://123.57.220.238:3306/static_resources_manager?characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: chl252599
+    type: com.alibaba.druid.pool.DruidDataSource #制定了数据源的类型，屏蔽掉了官方自动配置的数据源
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis: #配置redis
+    host: 123.57.220.238
+    port: 6379
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
