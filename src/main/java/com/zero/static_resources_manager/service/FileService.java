@@ -24,5 +24,6 @@ public interface FileService extends IService<FileDao> {
 
     //下载文件
     void  downloadFile(FileDao file, HttpServletRequest request, HttpServletResponse response) throws IOException, BusinessException;
-
+    //删除文件
+    void deleteFile(Integer fileId) throws BusinessException, IOException;
 }

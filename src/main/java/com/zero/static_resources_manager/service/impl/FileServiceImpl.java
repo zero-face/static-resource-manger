@@ -42,20 +42,6 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileDao> implements
         List<FileDao> list = fileMapper.getListByFolderId(folderId);
         return list;
     }
-    private Map<String, Object> mergeList(List<FolderDao> lis, List<FileDao> lis1) {
-        Map<String,Object> map = new HashMap<>();
-        Iterator<FolderDao> it = lis.iterator();
-        while(it.hasNext()) {
-            FolderDao folderDao = it.next();
-            map.put(String.valueOf(folderDao.getFolderName()),folderDao);
-        }
-        Iterator<FileDao> it1 = lis1.iterator();
-        while(it1.hasNext()) {
-             FileDao next = it1.next();
-            map.put(String.valueOf(next.getFileName()),next);
-        }
-        return map;
-    }
 
     @Override
     public FileDao getFile(Integer fileId) throws BusinessException {
@@ -88,6 +74,43 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileDao> implements
             log.info("下载完成");
         } else {
         throw new BusinessException(EmBustinessError.PARAMETER_VALIDATION_ERROR, "文件信息不存在");
+        }
     }
+
+    @Override
+    public void deleteFile(Integer fileId) throws BusinessException, IOException {
+        FileDao fileDao = getFile(fileId);
+        if(fileDao == null ) {
+            throw new BusinessException(EmBustinessError.PARAMETER_VALIDATION_ERROR, "文件不存在");
+        }
+        String filename = fileDao.getFileName();
+        fileMapper.deleteFileById(fileId);
+        deleteLocalFile(filename);
+    }
+
+    private void deleteLocalFile(String name) throws BusinessException, IOException {
+        File f , copyFile;
+        if(osName.equals("Windows 10")) {
+            f = new File("C:\\Users\\Administrator\\Desktop\\" + name);
+            copyFile= new File("C:\\Users\\Administrator\\Desktop\\deleteFile\\" + name);
+        } else {
+            f = new File("/file/" + name);
+            copyFile = new File("/file/deleteFile/" + name);
+        }
+        if(!f.exists()){
+            throw new BusinessException(EmBustinessError.PARAMETER_VALIDATION_ERROR, "文件源不存在");
+        }
+        FileInputStream fileInputStream = new FileInputStream(f);
+
+        FileOutputStream fileOutputStream = new FileOutputStream(copyFile);
+        byte[] bytes = new byte[1024];
+        int len = 0;
+        while((len = fileInputStream.read(bytes)) != -1) {
+            fileOutputStream.write(bytes,0,len);
+        }
+        fileInputStream.close();
+        fileOutputStream.flush();
+        fileOutputStream.close();
+        f.delete();
     }
 }

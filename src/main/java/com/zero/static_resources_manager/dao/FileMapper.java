@@ -18,6 +18,8 @@ public interface FileMapper extends BaseMapper<FileDao> {
     //根据文件夹id获取文件所有文件
     @Select("select id , file_name , folder_id , file_size , upload_time , download_count , file_type ,  upload_auth from static_resource where folder_id = #{folderId}")
     List<FileDao> getListByFolderId(@Param("folderId") Integer folderId);
-
+    //根据id删除文件
+    @Delete("delete from static_resource where id = #{id}")
+    void deleteFileById(@Param("id")Integer id);
 
 }

@@ -102,8 +102,17 @@ public class FileController extends BaseController {
         fileService.downloadFile(file, request,response);
         file.setDownloadCount(file.getDownloadCount()+1);
         //更新数据库中文件下载次数
-//        fileService.updateDownloadCount(file);
+        //fileService.updateDownloadCount(file);
         fileService.saveOrUpdate(file);
+        return CommonReturnType.create(null);
+    }
+    /**
+     * 文件删除
+     */
+    @GetMapping("/delete")
+    public CommonReturnType deleteFile(@RequestParam("fileId")Integer fileId) throws IOException, BusinessException {
+        fileService.deleteFile(fileId);
+        log.info("删除成功");
         return CommonReturnType.create(null);
     }
     /**
