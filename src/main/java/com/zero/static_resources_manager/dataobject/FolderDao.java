@@ -1,5 +1,8 @@
 package com.zero.static_resources_manager.dataobject;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,8 +20,11 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @TableName("folder")
 public class FolderDao {
+    @TableId(type = IdType.AUTO)
     private int id;
     private String folderName;
     private BigInteger createTime;
     private int folderId;
+    @TableLogic
+    private Boolean deleted;
 }
