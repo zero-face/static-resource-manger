@@ -19,7 +19,6 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @TableName("static_resource")
 public class FileDao {
-
     @TableId(type = IdType.AUTO)
     private int id;
     private String fileName;
