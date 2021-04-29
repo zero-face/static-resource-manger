@@ -18,4 +18,5 @@ public class PasswordDao {
     private int id;
     private int userId;
     private String encrptPassword;
+    
 }
