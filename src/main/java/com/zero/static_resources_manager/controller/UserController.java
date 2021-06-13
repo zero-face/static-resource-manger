@@ -76,6 +76,7 @@ public class UserController extends BaseController{
     public CommonReturnType loginByphone(@RequestParam("telephone")String telephone,
                                          @RequestParam("code")String code) throws BusinessException {
         //首先验证码是否正确
+
         if(StringUtils.isEmpty(telephone) || StringUtils.isEmpty(code)) {
             throw new BusinessException(EmBustinessError.PARAMETER_VALIDATION_ERROR);
         }

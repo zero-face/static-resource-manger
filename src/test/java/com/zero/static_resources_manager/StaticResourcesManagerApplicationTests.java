@@ -36,8 +36,10 @@ private RedisTemplate redisTemplate;
     void test(){
         //创建验证对象
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("abcd")).build();
-        DecodedJWT verify = jwtVerifier.verify("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTkwNzIwMTgsInVzZXJpZCI6MSwidXNlcm5hbWUiOiJ6ZXJvIn0.IK545u_mQDgDbdgdCcvbDKqoVGGDVAjb0VUJGx2sbws\n");
-        System.out.println(verify.getClaims().get("username").asString());
+        DecodedJWT verify = jwtVerifier.verify("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3MTU4MTAsInVzZXJpZCI6MSwidXNlcm5hbWUiOiJ6ZXJvIn0.-Z2mFSJ70hKLxcDHv5NXQZGeMRsRPc79c68nnWCG-dw");
+
+        System.out.println(verify.getPayload());
+        System.out.println(verify.getClaim("username").asString());
         System.out.println(verify.getClaims().get("userid").asInt());
         System.out.println(verify.getExpiresAt());
         System.out.println(verify.getSignature());

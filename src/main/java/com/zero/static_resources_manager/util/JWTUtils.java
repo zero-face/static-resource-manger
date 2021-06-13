@@ -18,7 +18,6 @@ public class JWTUtils {
     private static final String SIGN = "@FJ@#DDJFA1233451_fsggHSDGR!@$GFD%^YNH&^J&M";
     //生成token header payload sign
     public static String getToken(Map<String,String> map) {
-
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 7);
         JWTCreator.Builder builder = JWT.create();

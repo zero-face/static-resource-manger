@@ -11,6 +11,8 @@ import com.zero.static_resources_manager.service.UserService;
 import com.zero.static_resources_manager.service.model.UserModel;
 import com.zero.static_resources_manager.validator.ValidationResult;
 import com.zero.static_resources_manager.validator.ValidatorImpl;
+import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,14 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.Console;
+
 /**
  * @Author Zero
  * @Date 2021/4/19 18:59
  * @Since 1.8
  **/
+@Slf4j
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDao> implements UserService {
     @Autowired
@@ -37,6 +42,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDao> implements
     @Override
     public UserModel loginValidator(String username, String encrptPassword) throws BusinessException {
         //通过用户名拿到用户信息
+
         UserDao userDao = userMapper.selectByUserName(username);
         //如果没拿到，说明用户名不对，抛出错误
         if(userDao == null) {
@@ -46,6 +52,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDao> implements
         PasswordDao passwordDao = passwordMapper.selectByUserId(userDao.getUserId());
         //将用户信息和用户密码信息转换为一个核心领域用户模型
         UserModel userModel = convertFromdataobject(userDao, passwordDao);
+
         //比对通过用户名拿出的这个核心领域模型中的密码和传入的密码是否匹配
         if(!StringUtils.equals(encrptPassword, userModel.getEncrptPassword())){
             throw new BusinessException(EmBustinessError.PARAMETER_VALIDATION_ERROR,"用户名或者密码错误");
